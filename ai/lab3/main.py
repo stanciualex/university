@@ -1,5 +1,5 @@
 import networkx
-
+import matplotlib.pyplot as plt
 from GA import GA
 
 FILENAMES = {
@@ -24,6 +24,7 @@ def readNetworkFromFile(filename):
     network['graph'] = data
 
     return network
+
 
 def modularity(communities, param):
     noNodes = param['noNodes']
@@ -79,6 +80,7 @@ def main():
     ga.evaluation()
 
     currentGeneration = 0
+    bestFitnessArr = []
     while currentGeneration <= gaParam['noGen']:
         ga.oneGeneration()
         bestChromosome = ga.bestChromosome()
@@ -88,7 +90,13 @@ def main():
         print('Fitness: ' + str(bestChromosome.fitness))
         print('Number of communities: ' + str(getNumberOfCommunities(problParam, bestChromosome.repres)))
         print('')
+        bestFitnessArr.append(bestChromosome.fitness)
         currentGeneration += 1
+
+    plt.plot(bestFitnessArr)
+    plt.ylabel('Best fitness')
+    plt.xlabel('Generation')
+    plt.show()
 
 if __name__ == '__main__':
     main()

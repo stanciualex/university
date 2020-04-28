@@ -1,5 +1,6 @@
 import random
 from Ant import Ant
+import matplotlib.pyplot as plt
 
 class Solver:
     def __init__(self, problemParams):
@@ -68,12 +69,19 @@ class Solver:
         bestTrail = []
         bestTrailLength = 9999999
 
+        bestTrailsArr = []
         for _ in range(0, self.__iterations):
             self.init()
             while len(self.__ants[0].getCities()) < self.__numberOfNodes:
                 self.moveAnts()
                 self.updateTrails()
             bestTrail, bestTrailLength = self.updateBestTrail(bestTrail, bestTrailLength)
+            bestTrailsArr.append(bestTrailLength)
+
+        plt.plot(bestTrailsArr)
+        plt.ylabel('Best trail length')
+        plt.xlabel('Iteration')
+        plt.show()
 
         return bestTrail, bestTrailLength
 
